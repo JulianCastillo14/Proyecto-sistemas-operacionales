@@ -1,0 +1,5 @@
+#Utiliza una imagen base de nginx
+FROM nginx:latest
+
+#Copiamos la configuración del servidor web
+COPY default.conf /etc/nginx/conf.d/

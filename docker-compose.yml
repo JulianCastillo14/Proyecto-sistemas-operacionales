@@ -1,0 +1,35 @@
+services:
+  sacars-container-frontend:
+    build:
+      context: ./SaCars
+      dockerfile: Dockerfile-frontend
+    ports: 
+      - "3000:3000"
+  sacars-container-backend:
+    build:
+      context: ./SaCars
+      dockerfile: Dockerfile-backend
+    ports: 
+      - "4000:4000"
+    links:
+      - sacars-container-db
+      - sacars-container-frontend
+  sacars-container-db:
+    build: .
+    ports: 
+      - "3001:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+  sacars-container-nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-servidor-web 
+    ports:
+      - "80:80"
+    links:
+      - sacars-container-frontend
+    volumes:
+      - nginx_default_conf:/etc/nginx/conf.d/
+volumes:
+  mysql_data:
+  nginx_default_conf: 
